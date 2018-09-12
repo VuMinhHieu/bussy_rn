@@ -36,6 +36,25 @@ class Booking extends Component {
 		this.checkout = this.checkout.bind(this);
 	}
 
+	componentDidMount() {
+		const { routeData } = this.props;
+		db.collection("routes").doc(routeData.ID)
+			.onSnapshot((route) => {
+				const newRouteData = {ID: route.id, ...route.data()};
+				this.props.dispatch({type: "SET_ROUTE_DATA", data: newRouteData});
+				const tikets = newRouteData.ticket;
+				const listBooked = tikets.map(ticket => ticket.seat);
+				const listSeatBooked = [];
+				for (let i = 1; i < 10; i++) {
+					if (listBooked.indexOf(i) > -1) {
+						listSeatBooked.push(1);
+					} else listSeatBooked.push(0);
+				}
+				console.log(listSeatBooked);
+				this.props.dispatch({type: "SET_SEAT_STATUS_BY_LISTEN", data: listSeatBooked});
+			})
+	}
+
 	focusNextField(id) {
 		this.inputs[id].focus();
 	}
@@ -196,10 +215,11 @@ class Booking extends Component {
 
 				<View style={{marginTop: 5, flexDirection: "row", marginHorizontal: 20}}>
 					<View style={{flex: 2, marginRight: 5}}>
-						<Text style={{height: 35}} >Seat Number: {listSelectedSeat.length > 0 ? listSelectedSeat.join(", ") : `Please select at least 1 seat.`}</Text>
+						<Text style={{height: 35, fontWeight: "600"}} >Seat Number: {listSelectedSeat.length > 0 ? listSelectedSeat.join(", ") : `Please select at least 1 seat.`}</Text>
 					</View>
 					<View style={{flex: 1, flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-end"}}>
-						<Text>Total: {number_format(listSelectedSeat.length * routeData.price)}</Text>
+						<Text>Total: </Text>
+						<Text style={{fontWeight: '600'}}>{number_format(listSelectedSeat.length * routeData.price)}</Text>
 						<Text style={{fontSize: 11}}>đ</Text>
 					</View>
 				</View>

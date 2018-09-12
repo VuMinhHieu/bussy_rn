@@ -51,13 +51,13 @@ class CreateAccountScreen extends Component {
 			loading: true,
 			email_error, password_error, username_error,
 		});
-		if ( this.state.email.length > 0 ) {
+		if (this.state.email.length > 0) {
 			const validateEmail = this.validateEmail(this.state.email);
 			if (!validateEmail) email_error = true;
 		}
-		if ( this.state.password.length < 1 ) password_error = true;
-		if ( this.state.username.length < 1 ) username_error = true;
-		if ( email_error || password_error || username_error ) {
+		if (this.state.password.length < 1) password_error = true;
+		if (this.state.username.length < 1) username_error = true;
+		if (email_error || password_error || username_error) {
 			this.setState({
 				email_error, password_error, username_error,
 				loading: false
@@ -70,7 +70,7 @@ class CreateAccountScreen extends Component {
 				.get();
 			const isUserExsits = [];
 			getExistUsers.forEach((doc) => doc.exists ? isUserExsits.push(doc.data()) : null);
-			if ( isUserExsits.length > 0 ) {
+			if (isUserExsits.length > 0) {
 				username_error = true;
 				password_error = true;
 				this.setState({
@@ -79,13 +79,13 @@ class CreateAccountScreen extends Component {
 				});
 			} else {
 
-					users.doc().set({
-						display_name: this.state.display_name,
-						email: this.state.email,
-						password: this.state.password,
-						phone_number: this.state.phone_number,
-						username: this.state.username,
-					});
+				users.doc().set({
+					display_name: this.state.display_name,
+					email: this.state.email,
+					password: this.state.password,
+					phone_number: this.state.phone_number,
+					username: this.state.username,
+				});
 				setTimeout(() => {
 					this.setState({
 						loading: false
@@ -122,18 +122,19 @@ class CreateAccountScreen extends Component {
 				style={styles.wallpapper_image}
 				source={require('../images/background_login.jpg')}>
 				{this.state.loading ?
-					<View style={[styles.container, {zIndex:2}]}>
+					<View style={[styles.container, {zIndex: 2}]}>
 						<LottieView
 							source={require('../images/account_success')}
 							autoPlay
-							loop />
+							loop/>
 					</View>
 					: null}
 				<DismissKeyboardView
-					keyboardVerticalOffset={150}
+					behavior="position"
+					keyboardVerticalOffset={0}
 					style={styles.container}>
 					<Logo/>
-					<View style={[styles.register_input_wrap, this.state.username_error ? {borderColor:"#ff0e29"} : '']}>
+					<View style={[styles.register_input_wrap, this.state.username_error ? {borderColor: "#ff0e29"} : '']}>
 						<Icon style={styles.register_icon} name='user'/>
 						<TextInput
 							onChangeText={(username) => this.setState({username})}
@@ -152,7 +153,7 @@ class CreateAccountScreen extends Component {
 							}}
 						/>
 					</View>
-					<View style={[styles.register_input_wrap, this.state.password_error ? {borderColor:"#ff0e29"} : '']}>
+					<View style={[styles.register_input_wrap, this.state.password_error ? {borderColor: "#ff0e29"} : '']}>
 						<Icon style={styles.register_icon} name='lock'/>
 						<TextInput
 							onChangeText={(password) => this.setState({password})}
@@ -190,7 +191,7 @@ class CreateAccountScreen extends Component {
 							}}
 						/>
 					</View>
-					<View style={[styles.register_input_wrap, this.state.email_error ? {borderColor:"#ff0e29"} : '']}>
+					<View style={[styles.register_input_wrap, this.state.email_error ? {borderColor: "#ff0e29"} : '']}>
 						<IonIcon style={styles.register_icon} name='ios-mail'/>
 						<TextInput
 							onChangeText={(email) => this.setState({email})}
@@ -225,11 +226,13 @@ class CreateAccountScreen extends Component {
 							}}
 						/>
 					</View>
-					<TouchableOpacity
-						style={styles.button_register}
-						onPress={this.registerButton}>
-						<Text style={styles.button_register_text}>Register</Text>
-					</TouchableOpacity>
+					<View style={{justifyContent: "center", alignItems: "center"}}>
+						<TouchableOpacity
+							style={styles.button_register}
+							onPress={this.registerButton}>
+							<Text style={styles.button_register_text}>Register</Text>
+						</TouchableOpacity>
+					</View>
 				</DismissKeyboardView>
 			</ImageBackground>
 		);
@@ -244,7 +247,7 @@ const styles = StyleSheet.create({
 		backgroundColor: 'rgba(0, 0, 0, .3)',
 		position: 'absolute',
 		flex: 1,
-		height: DEVICE_HEIGHT - 60,
+		height: DEVICE_HEIGHT - 65,
 		width: DEVICE_WIDTH,
 		alignItems: 'center',
 		justifyContent: 'center',
@@ -266,7 +269,7 @@ const styles = StyleSheet.create({
 		marginTop: 5,
 		marginBottom: 5,
 		borderColor: "transparent",
-		borderWidth:1
+		borderWidth: 1
 	},
 	button_register: {
 		width: DEVICE_WIDTH - 50,

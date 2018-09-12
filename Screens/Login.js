@@ -11,7 +11,7 @@ import {
 	TouchableOpacity,
 	Text,
 	ImageBackground,
-	Alert,
+	Alert, Keyboard,
 } from 'react-native';
 
 import DismissKeyboardView from '../components/DismissKeyboardView';
@@ -28,8 +28,8 @@ class Login extends Component {
 		super(props);
 		this.state = {
 			loading: true,
-			username: 'user1',
-			password: 'pass1',
+			username: '',
+			password: '',
 		}
 	}
 
@@ -55,6 +55,7 @@ class Login extends Component {
 	}
 
 	async Login() {
+		Keyboard.dismiss();
 		this.setState({
 			loading: true
 		});
